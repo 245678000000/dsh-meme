@@ -1,0 +1,51 @@
+# Load dsh-meme alongside your existing Harness plugins.
+#
+# The plugin observes `session/event` and injects no service, so it can sit
+# anywhere in the tree. Nothing else in your config has to change.
+
+plugins:
+  dsh-meme:
+    # Config schema version. Bumped only when a field changes meaning.
+    version: 1
+
+    enabled: true
+
+    # Frequency profile: off | rare | balanced | chaos | custom
+    #   rare     -> probability 0.08
+    #   balanced -> probability 0.20   (default)
+    #   chaos    -> probability 0.65
+    # `custom` defers entirely to the explicit fields below.
+    mode: balanced
+
+    # Chance that an ELIGIBLE ordinary turn reacts. Explicit requests ignore it.
+    # Setting this overrides the profile.
+    probability: 0.20
+
+    # Leading turns of a session that never react automatically.
+    warmupTurns: 2
+
+    # Ordinary turns suppressed after an automatic reaction lands.
+    cooldownTurns: 5
+
+    # `local` costs zero extra model calls and is the default.
+    # `agent` is scaffolded but not yet wired; it currently behaves as `local`.
+    selectionMode: local
+    candidateCount: 3
+
+    allowGif: true
+
+    # How many recent memes are excluded from reselection.
+    recentHistory: 10
+
+    # Suppress automatic reactions on serious subject matter.
+    seriousSuppression: true
+    # Suppress even EXPLICIT requests on serious subject matter.
+    strictSeriousSuppression: false
+
+    # Absolute path to the directory holding manifest.json and the images.
+    # Defaults to ~/Pictures/dsh-memes
+    # assetRoot: /Users/you/Pictures/dsh-memes
+
+    # Privacy-safe decision logging (ids and reasons only, never message text).
+    log: true
+    debug: false
